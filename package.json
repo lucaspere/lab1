@@ -1,0 +1,15 @@
+{
+  "name": "lab-01",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "type": "module",
+  "license": "ISC",
+  "dependencies": {
+    "graphql-request": "^4.3.0"
+  }
+}
