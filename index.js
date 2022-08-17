@@ -34,7 +34,7 @@ var query = gql`{
 `
 const client = new GraphQLClient('https://api.github.com/graphql', {
     headers: {
-        authorization: "bearer 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",
+        authorization: "bearer SUA CHAVE",
     },
 })
 
@@ -76,5 +76,5 @@ for(let i=0;i<10;i++){
     }
   }
   `
-  // console.log(query);
+  console.log(data.search.nodes);
 }
