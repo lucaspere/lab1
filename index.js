@@ -1,97 +1,80 @@
 import { GraphQLClient, gql } from 'graphql-request'
 
+var after = "0"
+var queryComplement = "";
+var query = gql`{
+  search(query: "stars:>100", type: REPOSITORY, first: 20 ${queryComplement}) {
+    nodes {
+      ... on Repository {
+        name
+        createdAt
+        updatedAt
+        pullRequests(states: MERGED) {
+          totalCount
+        }
+        releases {
+          totalCount
+        }
+        primaryLanguage {
+          name
+        }
+        issuesclosed: issues(states: CLOSED) {
+          totalCount
+        }
+        issuesopen: issues(states: OPEN) {
+          totalCount
+        }
+      }
+    }
+    pageInfo {
+      endCursor
+    }
+  }
+}
+`
 const client = new GraphQLClient('https://api.github.com/graphql', {
-  headers: {
-    authorization: "bearer SEU_TOKEN_AQUI",
-  },
+    headers: {
+        authorization: "bearer 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",
+    },
 })
 
-const cursores = ["", "Y3Vyc29yOjIw", "Y3Vyc29yOjQw", "Y3Vyc29yOjYw", "Y3Vyc29yOjgw"]
-const promises = []
-
-for (let i = 0; i < cursores.length; i++) {
-  let query
-  if (i === 0) {
-    query = gql`{
-      search(
-        query: "stars:>100"
-        type: REPOSITORY
-        first: 20
-      ) {
-          edges {
-            cursor
-          }
-          nodes {
-            ... on Repository {
-              name
-              createdAt
-              updatedAt
-              pullRequests(states: MERGED) {
-                totalCount
-              }
-              issuesclosed: issues(states: CLOSED) {
-                totalCount
-              }
-              issuesopen: issues(states: OPEN) {
-                totalCount
-              }
-              releases {
-                totalCount
-              }
-              primaryLanguage {
-                name
-              }
-            }
-          }
-          pageInfo {
-            endCursor
-          }
-        }
-      }`
-  } else {
-    query = gql`{
-      search(
-        query: "stars:>100"
-        type: REPOSITORY
-        first: 20
-        after: "${cursores[i]}"
-      ) {
-          edges {
-            cursor
-          }
-          nodes {
-            ... on Repository {
-              name
-              createdAt
-              updatedAt
-              pullRequests(states: MERGED) {
-                totalCount
-              }
-              issuesclosed: issues(states: CLOSED) {
-                totalCount
-              }
-              issuesopen: issues(states: OPEN) {
-                totalCount
-              }
-              releases {
-                totalCount
-              }
-              primaryLanguage {
-                name
-              }
-            }
-          }
-          pageInfo {
-            endCursor
-          }
-        }
-      }`
+var data = await client.request(query, {})
+for(let i=0;i<10;i++){
+  after = data.search.pageInfo.endCursor
+  if(i>0){
+    data = await client.request(query, {})
+    queryComplement = `, after: "${after}"`
+    console.log(queryComplement);
   }
-
-  promises.push(client.request(query))
+  query = gql`{
+    search(query: "stars:>100", type: REPOSITORY, first: 20 ${queryComplement}) {
+      nodes {
+        ... on Repository {
+          name
+          createdAt
+          updatedAt
+          pullRequests(states: MERGED) {
+            totalCount
+          }
+          releases {
+            totalCount
+          }
+          primaryLanguage {
+            name
+          }
+          issuesclosed: issues(states: CLOSED) {
+            totalCount
+          }
+          issuesopen: issues(states: OPEN) {
+            totalCount
+          }
+        }
+      }
+      pageInfo {
+        endCursor
+      }
+    }
+  }
+  `
+  // console.log(query);
 }
-const resolves = await Promise.all(promises);
-const repos = resolves.map(repo => repo.search.nodes).flat()
-
-console.log(repos)
-console.log(`Quantidade de repos: ${repos.length}`)
