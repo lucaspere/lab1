@@ -6,7 +6,7 @@ var queryComplement = "";
 var query = setQuery(queryComplement);
 const client = new GraphQLClient('https://api.github.com/graphql', {
     headers: {
-        authorization: "bearer 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",
+        authorization: "bearer chave aqui",
     },
 })
 
