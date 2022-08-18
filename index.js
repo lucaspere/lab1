@@ -3,7 +3,7 @@ import { GraphQLClient, gql } from 'graphql-request'
 var after = "0"
 var queryComplement = "";
 var query = gql`{
-  search(query: "stars:>100", type: REPOSITORY, first: 20 ${queryComplement}) {
+  search(query: "stars:>100", type: REPOSITORY, first: 20) {
     nodes {
       ... on Repository {
         name
