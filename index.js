@@ -6,12 +6,13 @@ var queryComplement = "";
 var query = setQuery(queryComplement);
 const client = new GraphQLClient('https://api.github.com/graphql', {
     headers: {
-        authorization: "bearer chave aqui",
+        authorization: "bearer sua chave",
     },
 })
 
 var data = await client.request(query, {})
 const promises = [client.request(query, {})]
+
 for(let i=0;i<5;i++){
   after = data.search.pageInfo.endCursor
   queryComplement = `, after: "${after}"`
@@ -20,6 +21,7 @@ for(let i=0;i<5;i++){
     promises.push(client.request(query, {})) 
   }
 }
+
 const results = await Promise.all(promises)
 const nodes = results.map(node => node.search.nodes).flat().map(node => dePara(node))
 
