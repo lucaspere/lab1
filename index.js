@@ -34,7 +34,7 @@ var query = gql`{
 `
 const client = new GraphQLClient('https://api.github.com/graphql', {
     headers: {
-        authorization: "bearer SUA_CHAVE",
+        authorization: "bearer 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",
     },
 })
 
@@ -79,5 +79,6 @@ for(let i=0;i<5;i++){
 }
 const results = await Promise.all(promises)
 const nodes = results.map(node => node.search.nodes).flat()
-console.log(nodes)
+
+console.log(nodes);
 console.log("\n"+nodes.length);
