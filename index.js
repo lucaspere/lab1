@@ -3,39 +3,10 @@ import ObjectsToCsv from 'objects-to-csv'
 
 var after = "0"
 var queryComplement = "";
-var query = gql`{
-  search(query: "stars:>100", type: REPOSITORY, first: 20) {
-    nodes {
-      ... on Repository {
-        name
-        createdAt
-        updatedAt
-        pullRequests(states: MERGED) {
-          totalCount
-        }
-        releases {
-          totalCount
-        }
-        primaryLanguage {
-          name
-        }
-        issuesclosed: issues(states: CLOSED) {
-          totalCount
-        }
-        issuesopen: issues(states: OPEN) {
-          totalCount
-        }
-      }
-    }
-    pageInfo {
-      endCursor
-    }
-  }
-}
-`
+var query = setQuery(queryComplement);
 const client = new GraphQLClient('https://api.github.com/graphql', {
     headers: {
-        authorization: "bearer sua_chave",
+        authorization: "bearer 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",
     },
 })
 
@@ -45,36 +16,7 @@ for(let i=0;i<5;i++){
   after = data.search.pageInfo.endCursor
   queryComplement = `, after: "${after}"`
   if(i>0){
-    query = gql`{
-      search(query: "stars:>100", type: REPOSITORY, first: 20 ${queryComplement}) {
-        nodes {
-          ... on Repository {
-            name
-            createdAt
-            updatedAt
-            pullRequests(states: MERGED) {
-              totalCount
-            }
-            releases {
-              totalCount
-            }
-            primaryLanguage {
-              name
-            }
-            issuesclosed: issues(states: CLOSED) {
-              totalCount
-            }
-            issuesopen: issues(states: OPEN) {
-              totalCount
-            }
-          }
-        }
-        pageInfo {
-          endCursor
-        }
-      }
-    }
-    `
+    query = setQuery(queryComplement);
     promises.push(client.request(query, {})) 
   }
 }
@@ -108,3 +50,37 @@ console.log("\n"+nodes.length);
   // Return the CSV file as string:
   console.log(await csv.toString());
 })();
+
+function setQuery(complement){
+  let query = gql`{
+    search(query: "stars:>100", type: REPOSITORY, first: 20 ${complement}) {
+      nodes {
+        ... on Repository {
+          name
+          createdAt
+          updatedAt
+          pullRequests(states: MERGED) {
+            totalCount
+          }
+          releases {
+            totalCount
+          }
+          primaryLanguage {
+            name
+          }
+          issuesclosed: issues(states: CLOSED) {
+            totalCount
+          }
+          issuesopen: issues(states: OPEN) {
+            totalCount
+          }
+        }
+      }
+      pageInfo {
+        endCursor
+      }
+    }
+  }
+  `
+  return query;
+}
