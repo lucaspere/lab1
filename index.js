@@ -1,4 +1,5 @@
 import { GraphQLClient, gql } from 'graphql-request'
+import ObjectsToCsv from 'objects-to-csv'
 
 var after = "0"
 var queryComplement = "";
@@ -34,7 +35,7 @@ var query = gql`{
 `
 const client = new GraphQLClient('https://api.github.com/graphql', {
     headers: {
-        authorization: "bearer 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",
+        authorization: "bearer sua_chave",
     },
 })
 
@@ -78,7 +79,32 @@ for(let i=0;i<5;i++){
   }
 }
 const results = await Promise.all(promises)
-const nodes = results.map(node => node.search.nodes).flat()
+const nodes = results.map(node => node.search.nodes).flat().map(node => dePara(node))
+
+function dePara(node){
+  let node2 = {}
+  Object.keys(node).map(key => {
+    if(typeof node[key] === 'object' ) {
+      console.log(node[key])
+        const chave = node[key] ? Object.keys(node[key])[0] : null
+        node2[key] = chave ? node[key][chave] : node[key]
+    } else {
+        node2[key] = node[key]
+    }
+  })
+
+  return node2
+}
 
 console.log(nodes);
 console.log("\n"+nodes.length);
+
+(async () => {
+  const csv = new ObjectsToCsv(nodes);
+ 
+  // Save to file:
+  await csv.toDisk('./test.csv');
+ 
+  // Return the CSV file as string:
+  console.log(await csv.toString());
+})();
