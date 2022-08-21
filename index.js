@@ -10,18 +10,18 @@ const client = new GraphQLClient('https://api.github.com/graphql', {
   },
 })
 
-const data = await client.request(setQuery(), {})
-const promises = []
 
-for (let i = 1; i < 50; i++) {
-  const after = data.search.pageInfo.endCursor
-  const queryComplement = `, after: "${after}"`
-  promises.push(client.request(setQuery(queryComplement)))
+const results = []
 
+for (let i = 0; i < 5; i++) {
+  const after = results.at(i - 1)?.search.pageInfo.endCursor
+  const queryComplement = after && `, after: "${after}"`
+  const data = await client.request(setQuery(queryComplement))
+
+  results.push(data)
 }
 
-const results = await Promise.all(promises)
-const nodes = results.concat(data)
+const nodes = results
   .map(node => node.search.nodes)
   .flat()
   .map(node => normalizeCsvData(node))
