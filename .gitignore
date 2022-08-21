@@ -133,4 +133,4 @@ dist
 
 package-lock.json
 
-teste.csv
+*.csv

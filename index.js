@@ -1,88 +1,32 @@
-import { GraphQLClient, gql } from 'graphql-request'
-import ObjectsToCsv from 'objects-to-csv'
+import { GraphQLClient } from 'graphql-request'
+import { normalizeCsvData, setQuery, writeCSVFile } from './utils.js';
+import { config } from 'dotenv'
 
-var after = "0"
-var queryComplement = "";
-var query = setQuery(queryComplement);
+config()
+
 const client = new GraphQLClient('https://api.github.com/graphql', {
-    headers: {
-        authorization: "bearer sua chave",
-    },
+  headers: {
+    authorization: `bearer ${process.env.GITHUB_TOKEN}`,
+  },
 })
 
-var data = await client.request(query, {})
-const promises = [client.request(query, {})]
+const data = await client.request(setQuery(), {})
+const promises = []
 
-for(let i=0;i<5;i++){
-  after = data.search.pageInfo.endCursor
-  queryComplement = `, after: "${after}"`
-  if(i>0){
-    query = setQuery(queryComplement);
-    promises.push(client.request(query, {})) 
-  }
+for (let i = 1; i < 50; i++) {
+  const after = data.search.pageInfo.endCursor
+  const queryComplement = `, after: "${after}"`
+  promises.push(client.request(setQuery(queryComplement)))
+
 }
 
 const results = await Promise.all(promises)
-const nodes = results.map(node => node.search.nodes).flat().map(node => dePara(node))
-
-function dePara(node){
-  let node2 = {}
-  Object.keys(node).map(key => {
-    if(typeof node[key] === 'object' ) {
-      console.log(node[key])
-        const chave = node[key] ? Object.keys(node[key])[0] : null
-        node2[key] = chave ? node[key][chave] : node[key]
-    } else {
-        node2[key] = node[key]
-    }
-  })
-
-  return node2
-}
+const nodes = results.concat(data)
+  .map(node => node.search.nodes)
+  .flat()
+  .map(node => normalizeCsvData(node))
 
 console.log(nodes);
-console.log("\n"+nodes.length);
+console.log("\n" + nodes.length);
 
-(async () => {
-  const csv = new ObjectsToCsv(nodes);
- 
-  // Save to file:
-  await csv.toDisk('./test.csv');
- 
-  // Return the CSV file as string:
-  console.log(await csv.toString());
-})();
-
-function setQuery(complement){
-  let query = gql`{
-    search(query: "stars:>100", type: REPOSITORY, first: 20 ${complement}) {
-      nodes {
-        ... on Repository {
-          name
-          createdAt
-          updatedAt
-          pullRequests(states: MERGED) {
-            totalCount
-          }
-          releases {
-            totalCount
-          }
-          primaryLanguage {
-            name
-          }
-          issuesclosed: issues(states: CLOSED) {
-            totalCount
-          }
-          issuesopen: issues(states: OPEN) {
-            totalCount
-          }
-        }
-      }
-      pageInfo {
-        endCursor
-      }
-    }
-  }
-  `
-  return query;
-}
+await writeCSVFile(nodes)
