@@ -49,7 +49,7 @@ Neste laboratório são estudadas as principais características de sistemas pop
 
   
 
-6.  Sistemas populares possuem um alto percentual de issues fechadas?Não. (Possuem muitas issues, logo o percentual pode ser baixo apesar do número de issues fechadas ser alta)
+6.  Sistemas populares não possuem um alto percentual de issues fechadas, pois possuem muitas issues, logo o percentual pode ser baixo apesar do número de issues fechadas ser alta.
     
 
   
