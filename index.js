@@ -10,7 +10,6 @@ const client = new GraphQLClient('https://api.github.com/graphql', {
   },
 })
 
-
 const results = []
 
 for (let i = 0; i < 50; i++) {
