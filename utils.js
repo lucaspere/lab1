@@ -47,7 +47,7 @@ export const setQuery = (complement = "") => gql`{
   }
   `
 
-export const writeCSVFile = async (data, filename = 'test') => {
+export const writeCSVFile = async (data, filename = 'dados') => {
     const csv = new ObjectsToCsv(data);
 
     // Save to file:
