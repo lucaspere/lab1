@@ -148,7 +148,7 @@ Com o processamento dos dados, foi possível obter resultados das hipóteses ini
 *  O maior percentual é de 100%, o menor é de 0%. A mediana dos percentuais é de 33,87%.
  
 
-**Link dos resultados:** https://docs.google.com/spreadsheets/d/1vfV5Z0bgLPvZEYPO9iGQB933sjlRAf1Af8NeJCCzf8U/edit?usp=sharing
+**Link dos resultados:** [https://docs.google.com/spreadsheets/d/1vfV5Z0bgLPvZEYPO9iGQB933sjlRAf1Af8NeJCCzf8U/edit?usp=sharing](https://docs.google.com/spreadsheets/d/19XqPOsd80vP3ZAV1eCD9vGlte0mndRYdwRgr-b6WORg/edit?usp=sharing)
 
   
 
