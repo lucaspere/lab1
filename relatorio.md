@@ -1,13 +1,9 @@
 
-** PONTIFÍCIA UNIVERSIDADE CATÓLICA DE MINAS GERAIS
+**PONTIFÍCIA UNIVERSIDADE CATÓLICA DE MINAS GERAIS UNIDADE PRAÇA DA LIBERDADE**
 
   
 
-UNIDADE PRAÇA DA LIBERDADE**
-
-  
-
-**Engenharia de Software
+**Engenharia de Software**
 
   
 
@@ -19,7 +15,7 @@ Laboratório 01
 
   
 
-Prof. Laerte**
+**Prof. Laerte**
 
   
   
