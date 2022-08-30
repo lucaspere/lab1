@@ -111,15 +111,15 @@ Com o processamento dos dados, foi possível obter resultados das hipóteses ini
 
   
 
-2. Os valores de média, mediana, máximo e mínimo do dia 30/08/2022 foram respectivamente (2.218,34),(434,50), (101.538,00), (0).
+2. Os valores de média, mediana, máximo e mínimo das pull requests do dia 30/08/2022 foram respectivamente (2.218,34),(434,50), (101.538,00), (0).
 
   
 
-3. Os valores de média, mediana, máximo e mínimo do dia 30/08/2022 foram respectivamente (69,13), (20), (2384), (0).
+3. Os valores de média, mediana, máximo e mínimo de releases do dia 30/08/2022 foram respectivamente (69,13), (20), (2384), (0).
 
   
 
-4. Os valores de média, mediana, máximo e mínimo do dia 30/08/2022 foram respectivamente (0,07), (0), (4,00), (0).
+4. Os valores de média, mediana, máximo e mínimo de dias sem atualizações do dia 30/08/2022 foram respectivamente (0,07), (0), (4,00), (0).
 
   
 
