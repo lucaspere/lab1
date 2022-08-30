@@ -207,13 +207,13 @@ Após processamento e coleta de dados e com os resultados obtidos, avaliamos as 
 
   
 
-3. “Os Sistemas populares lançam releases com frequência pois por terem grande número de usuários, caso exista algum bug ou melhoria, a comunidade encontrará.” Tendo em vista o numero da mediana e média comparados ao maximo, nossa hipotese nao se confirmou 
+3. “Os Sistemas populares lançam releases com frequência pois por terem grande número de usuários, caso exista algum bug ou melhoria, a comunidade encontrará.” Tendo em vista o numero da mediana e média comparados ao máximo, nossa hipótese não se confirmou. 
 
   
 
   
 
-4. “Sistemas populares são atualizados com frequência pois por terem grande número de usuários, caso exista algum bug ou melhoria, a comunidade encontrará.” Sim, essa hipótese se confirma, os repositórios tiveram um tempo de atualização de no máximo 4 dias no período analisado.
+4. “Sistemas populares são atualizados com frequência pois por terem grande número de usuários, caso exista algum bug ou melhoria, a comunidade encontrará.” Sim, essa hipótese se confirma, os repositórios tiveram um tempo de atualização de no máximo 3 dias no período analisado.
 
   
 
