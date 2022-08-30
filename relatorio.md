@@ -3,7 +3,6 @@
 
   
 
-<<<<<<< HEAD
   
 
 **Engenharia de Software - Laboratório de Experimentação de Software**
@@ -13,9 +12,6 @@
   
 
 **Laboratório 01**
-=======
-**Engenharia de Software**
->>>>>>> b593bd9b08d674c3715272d50cfd0825c71b69f0
 
   
 
@@ -31,17 +27,6 @@
 
   
 
-<<<<<<< HEAD
-=======
-**Prof. Laerte**
-
-  
-  
-
-Alunos: Lucas Fellippe e Vinícius Marini
-
-  
->>>>>>> b593bd9b08d674c3715272d50cfd0825c71b69f0
   
 
 ## Introdução
@@ -170,7 +155,6 @@ Com o processamento dos dados, foi possível obter resultados das hipóteses ini
 
 3. Sistemas populares lançam releases com frequência?
 
-<<<<<<< HEAD
 ![](https://lh5.googleusercontent.com/Uz5eZKFJ-Tmg_4KaUvffzjI5Pq-WIkHpXHweyJMPIS-4a0O1cB3sx_-yNO9_I77JXxOOcww71nPWljrv8vm9jq-0XlUNXT8tadZ6KkIjY_N-EBhP2GihQmNQNLykzEzRC7uZ0vY3QAjU1WWH0fT2dIA)
 
 4. Sistemas populares são atualizados com frequência?
@@ -196,9 +180,6 @@ Com o processamento dos dados, foi possível obter resultados das hipóteses ini
 **Link dos resultados:** https://docs.google.com/spreadsheets/d/1rvEqq_hc0SyoBJw0Se2WahGf3-ix-UISfy3YlfdhYPY/edit?usp=sharing
 
   
-=======
-**Link dos resultados:** [https://docs.google.com/spreadsheets/d/1vfV5Z0bgLPvZEYPO9iGQB933sjlRAf1Af8NeJCCzf8U/edit?usp=sharing](https://docs.google.com/spreadsheets/d/19XqPOsd80vP3ZAV1eCD9vGlte0mndRYdwRgr-b6WORg/edit?usp=sharing)
->>>>>>> b593bd9b08d674c3715272d50cfd0825c71b69f0
 
   
 
