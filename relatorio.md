@@ -89,7 +89,7 @@ Depois de delimitado o tema e as hipóteses inicias, fora iniciada a etapa de co
 
   
 
-Após coletadas via Graphql, as informações foram processados em um script na linguagem Javascript e salvas em um documento CSV. Posteriormente, com as informações em CSV, foram gerados gráficos das principais informações buscadas.
+Após coletadas via Graphql, as informações foram processados em um script na linguagem Javascript e salvas em um documento CSV. Posteriormente, com as informações em CSV, foram gerados gráficos das principais informações buscadas via Google Sheets.
 
   
 
