@@ -17,7 +17,7 @@ export const normalizeCsvData = (node) => {
 }
 
 export const setQuery = (complement = "") => gql`{
-    search(query: "stars:>100", type: REPOSITORY, first: 20 ${complement}) {
+    search(query: "stars:>100, language:java", type: REPOSITORY, first: 20 ${complement}) {
       nodes {
         ... on Repository {
           name
