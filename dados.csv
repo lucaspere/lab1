@@ -18,8 +18,8 @@ MPAndroidChart,2014-04-25T14:29:47Z,2022-09-05T13:36:16Z,190,44,Java,2861,1969,h
 ghidra,2019-03-01T03:27:48Z,2022-09-05T18:21:28Z,303,22,Java,2143,1180,https://github.com/NationalSecurityAgency/ghidra
 lottie-android,2016-10-06T22:42:42Z,2022-09-05T13:16:50Z,552,43,Java,1436,32,https://github.com/airbnb/lottie-android
 glide,2013-07-08T22:52:33Z,2022-09-05T18:45:41Z,407,39,Java,3785,362,https://github.com/bumptech/glide
-tutorials,2013-04-29T18:26:36Z,2022-09-05T18:34:28Z,8710,0,Java,591,27,https://github.com/eugenp/tutorials
-jadx,2013-03-18T17:08:21Z,2022-09-05T18:20:00Z,351,25,Java,995,252,https://github.com/skylot/jadx
+tutorials,2013-04-29T18:26:36Z,2022-09-05T19:01:28Z,8710,0,Java,591,27,https://github.com/eugenp/tutorials
+jadx,2013-03-18T17:08:21Z,2022-09-05T19:08:24Z,351,25,Java,995,252,https://github.com/skylot/jadx
 hello-algorithm,2020-05-29T05:47:09Z,2022-09-05T17:32:07Z,25,0,Java,32,6,https://github.com/geekxh/hello-algorithm
 AndroidUtilCode,2016-07-30T18:18:32Z,2022-09-05T14:01:27Z,85,116,Java,1259,214,https://github.com/Blankj/AndroidUtilCode
 jeecg-boot,2018-11-26T10:40:00Z,2022-09-05T14:41:40Z,12,21,Java,3312,31,https://github.com/jeecgboot/jeecg-boot
@@ -85,7 +85,7 @@ Android-Universal-Image-Loader,2011-11-27T18:48:23Z,2022-09-05T15:37:57Z,51,0,Ja
 tinker,2016-09-06T06:57:52Z,2022-09-05T15:46:57Z,71,50,Java,1068,460,https://github.com/Tencent/tinker
 zheng,2016-10-04T10:07:06Z,2022-09-05T08:20:59Z,10,0,Java,62,35,https://github.com/shuzheng/zheng
 java8-tutorial,2014-03-16T17:25:43Z,2022-09-05T15:12:47Z,10,0,Java,0,0,https://github.com/winterbe/java8-tutorial
-Mindustry,2017-04-30T01:24:29Z,2022-09-05T17:05:26Z,2550,140,Java,3250,1,https://github.com/Anuken/Mindustry
+Mindustry,2017-04-30T01:24:29Z,2022-09-05T17:05:26Z,2551,140,Java,3250,1,https://github.com/Anuken/Mindustry
 zipkin,2012-06-06T18:26:16Z,2022-09-05T13:06:22Z,1673,67,Java,1086,180,https://github.com/openzipkin/zipkin
 termux-app,2015-10-23T09:42:46Z,2022-09-05T18:09:16Z,126,89,Java,1859,262,https://github.com/termux/termux-app
 Android-CleanArchitecture,2014-08-19T14:09:26Z,2022-09-05T11:16:03Z,14,0,Java,124,126,https://github.com/android10/Android-CleanArchitecture

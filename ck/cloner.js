@@ -3,4 +3,4 @@ import { execSync } from 'child_process';
 
 export const output = (url) => execSync(`git clone ${url}`, { encoding: 'utf-8' });  // the default is 'buffer'
 
-output('https://github.com/lucaspere/lab1.git')
+output('https://github.com/marinisz/trabalhoAlgoritmos')
