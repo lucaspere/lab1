@@ -1,11 +1,32 @@
 import { execSync } from 'child_process';
+import fs from 'fs';
+import {parse} from 'csv-parse';
 
-//java -jar ck-0.7.1-SNAPSHOT-jar-with-dependencies.jar trabalhoAlgoritmos true 0 False
+var data = []
 
-export const cloneRepo = (url) => execSync(`git clone ${url}`, { encoding: 'utf-8' });  // the default is 'buffer'
+export const buscaCSV = (caminho) => {
+    fs.createReadStream(caminho)
+        .pipe(
+            parse({
+            delimiter: ",",
+            columns: true,
+            ltrim: true,
+            })
+        )
+        .on("data", function (row) {
+            // 👇 push the object row into the array
+            data.push(row);
+        })
+        .on("error", function (error) {
+            console.log(error.message);
+        })
+        .on("end", function () {
+            console.log(data.length);
+        });
+    }
 
-// cloneRepo('https://github.com/marinisz/trabalhoAlgoritmos')
+export const cloneRepo = (url) => execSync(`git clone ${url} ./repos`, { encoding: 'utf-8' });  // the default is 'buffer'
 
-export const getCk = (url) => execSync(`java -jar ck-0.7.1-SNAPSHOT-jar-with-dependencies.jar ${url} true 0 False`, { encoding: 'utf-8' });  // the default is 'buffer'
+export const getCk = () => execSync(`java -jar ck-0.7.1-SNAPSHOT-jar-with-dependencies.jar ./repos true 0 False`, { encoding: 'utf-8' });  // the default is 'buffer'
 
-getCk("trabalhoAlgoritmos")
+export const deleteRepoFolder = () => fs.rmSync("./repos", { recursive: true, force: true });
