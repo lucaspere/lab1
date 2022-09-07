@@ -20,7 +20,7 @@ function buscaCSV(caminho) {
             console.log(error.message);
         })
         .on("end", function () {
-            // console.log(data.length);
+            console.log(data[1]);
         });
         return data;
     }
@@ -34,4 +34,18 @@ export const deleteRepoFolder = () => fs.rmSync("./repos", { recursive: true, fo
 // deleteRepoFolder();
 // cloneRepo('https://github.com/GrowingGit/GitHub-Chinese-Top-Charts');
 // getCk();
-// buscaCSV()
+
+function buscaInfoRepos(){
+    let repos =  buscaCSV("../dados.csv");
+    for(let i = 0; i< 1; i++){
+        deleteRepoFolder();
+        setTimeout(()=>{
+            console.log("Clonando repo: "+repos[1].name);
+            cloneRepo(repos[1].url);
+        },200)
+        //logica pra pegar os dados da class.csv
+        //logica pra pegar os dados da method.csv
+    }
+}
+
+buscaInfoRepos();
