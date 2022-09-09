@@ -2,9 +2,9 @@ import { execSync } from 'child_process';
 import fs from 'fs';
 import {parse} from 'csv-parse';
 
-function buscaCSV(caminho) {
+function getCSV(path) {
     var data = []
-    fs.createReadStream(caminho)
+    fs.createReadStream(path)
         .pipe(
             parse({
             delimiter: ",",
@@ -20,32 +20,53 @@ function buscaCSV(caminho) {
             console.log(error.message);
         })
         .on("end", function () {
-            console.log(data[1]);
+            // console.log(data[1]);
         });
         return data;
-    }
-
-export const cloneRepo = (url) => execSync(`git clone ${url} ./repos`, { encoding: 'utf-8' });  // the default is 'buffer'
-
-export const getCk = () => execSync(`java -jar ck-0.7.1-SNAPSHOT-jar-with-dependencies.jar ./repos true 0 False`, { encoding: 'utf-8' });  // the default is 'buffer'
-
-export const deleteRepoFolder = () => fs.rmSync("./repos", { recursive: true, force: true });
-
-// deleteRepoFolder();
-// cloneRepo('https://github.com/GrowingGit/GitHub-Chinese-Top-Charts');
-// getCk();
-
-function buscaInfoRepos(){
-    let repos =  buscaCSV("../dados.csv");
-    for(let i = 0; i< 1; i++){
-        deleteRepoFolder();
-        setTimeout(()=>{
-            console.log("Clonando repo: "+repos[1].name);
-            cloneRepo(repos[1].url);
-        },200)
-        //logica pra pegar os dados da class.csv
-        //logica pra pegar os dados da method.csv
-    }
 }
 
-buscaInfoRepos();
+function cloneRepo(url) {
+    execSync(`git clone ${url} ./repos`, { encoding: 'utf-8' })
+}
+
+function getCk() { 
+    execSync(`java -jar ck-0.7.1-SNAPSHOT-jar-with-dependencies.jar ./repos true 0 False`, { encoding: 'utf-8' })
+    //metodo para retirar as infos
+}
+
+function deleteRepoFolder() {
+    fs.rmSync("./repos", { recursive: true, force: true });
+}
+
+function getLoc(array){
+    let loc = 0;
+    array.forEach(element => {
+        loc += parseInt(element.loc);
+    });
+    console.log(loc);
+    return loc;
+}
+
+function getDit(array){
+    let dit = 0;
+    array.forEach(element => {
+        if(element.dit>dit)
+        dit = element.dit;
+    });
+    console.log(dit);
+    return dit;
+}
+
+//to-do
+//lcom*/cbo
+
+function getMetrics(){
+    let classMetrics = getCSV('class.csv');
+    let methodMetrics = getCSV('class.csv');
+
+}
+
+// deleteRepoFolder();
+// cloneRepo('https://github.com/marinisz/trabalhoAlgoritmos');
+// getCk();
+getMetrics()
