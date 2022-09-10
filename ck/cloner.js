@@ -1,28 +1,35 @@
 import { execSync } from 'child_process';
 import fs from 'fs';
 import {parse} from 'csv-parse';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 function getCSV(path) {
-    var data = []
-    fs.createReadStream(path)
-        .pipe(
-            parse({
-            delimiter: ",",
-            columns: true,
-            ltrim: true,
+    return new Promise((resolve, reject) => {
+        const data = []
+        fs.createReadStream(path)
+            .pipe(
+                parse({
+                delimiter: ",",
+                columns: true,
+                ltrim: true,
+                })
+            )
+            .on("data", function (row) {
+                // 👇 push the object row into the array
+                data.push(row);
             })
-        )
-        .on("data", function (row) {
-            // 👇 push the object row into the array
-            data.push(row);
-        })
-        .on("error", function (error) {
-            console.log(error.message);
-        })
-        .on("end", function () {
-            // console.log(data[1]);
-        });
-        return data;
+            .on("error", function (error) {
+                reject(error)
+            })
+            .on("end", function () {
+                resolve(data)
+            });
+    })
+
 }
 
 function cloneRepo(url) {
@@ -60,13 +67,14 @@ function getDit(array){
 //to-do
 //lcom*/cbo
 
-function getMetrics(){
-    let classMetrics = getCSV('class.csv');
-    let methodMetrics = getCSV('class.csv');
-
+async function getMetrics(){
+    const classMetrics  = await getCSV(path.resolve(__dirname,'class.csv'));
+    console.log(classMetrics)
+    const methodMetrics = await getCSV(path.resolve(__dirname,'method.csv'));
+    console.log(methodMetrics)
 }
 
 // deleteRepoFolder();
 // cloneRepo('https://github.com/marinisz/trabalhoAlgoritmos');
 // getCk();
-getMetrics()
+await getMetrics()
