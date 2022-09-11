@@ -45,12 +45,27 @@ function deleteRepoFolder() {
     fs.rmSync("./repos", { recursive: true, force: true });
 }
 
+function median(values){
+    if(values.length ===0) throw new Error("No inputs");
+
+    values.sort(function(a,b){
+      return a-b;
+    });
+
+    var half = Math.floor(values.length / 2);
+
+    if (values.length % 2){
+        return values[half];
+    }
+    return parseFloat((values[half - 1] + values[half]) )/ 2.0;
+}
+
 function getLoc(array){
     let loc = 0;
     array.forEach(element => {
         loc += parseInt(element.loc);
     });
-    console.log(loc);
+    console.log("LOC: "+loc);
     return loc;
 }
 
@@ -60,8 +75,28 @@ function getDit(array){
         if(element.dit>dit)
         dit = element.dit;
     });
-    console.log(dit);
+    console.log("DIT: "+dit);
     return dit;
+}
+
+function getCbo(array){
+    let cbo = [];
+    array.forEach(element => {
+        cbo.push(element.cbo);
+    });
+    let medianCBO = median(cbo);
+    console.log("CBO: " + medianCBO);
+    return medianCBO;
+}
+
+function getLcom(array){
+    let lcom = [];
+    array.forEach(element => {
+        lcom.push(element['lcom*']);
+    });
+    let medianLCOM = median(lcom);
+    console.log("LCOM: " + medianLCOM);
+    return medianLCOM;
 }
 
 //to-do
@@ -69,9 +104,11 @@ function getDit(array){
 
 async function getMetrics(){
     const classMetrics  = await getCSV(path.resolve(__dirname,'class.csv'));
-    console.log(classMetrics)
+    getDit(classMetrics)
+    getLcom(classMetrics)
     const methodMetrics = await getCSV(path.resolve(__dirname,'method.csv'));
-    console.log(methodMetrics)
+    getLoc(methodMetrics)
+    getCbo(methodMetrics)
 }
 
 // deleteRepoFolder();
