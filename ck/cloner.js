@@ -120,7 +120,8 @@ async function report(){
         await getCk();
         await getMetrics(reposData[i]);
     }
-    console.log(reposData);
+    console.log(reposData[0]);
+    console.log(reposData[1]);
 }
 
 report()
