@@ -113,12 +113,16 @@ async function getMetrics(){
 
 async function report(){
     const reposData = await getCSV(path.resolve(__dirname,'../dados.csv'));
-    for(let i = 0;i<4;i++){
+    for(let i = 0;i<2;i++){
         await cloneRepo(reposData[i].url)
         await getCk();
         let array = await getMetrics();
-        console.log(array);
+        reposData[i]['dit']=array[0];
+        reposData[i]['lcom']=array[1];
+        reposData[i]['loc']=array[2];
+        reposData[i]['cbo']=array[3];
     }
+    console.log(reposData);
 }
 
 report()
