@@ -32,21 +32,22 @@ function getCSV(path) {
 
 }
 
-function cloneRepo(url) {
+async function cloneRepo(url) {
+    await deleteRepoFolder();
     execSync(`git clone ${url} ./repos`, { encoding: 'utf-8' })
 }
 
-function getCk() { 
+async function getCk() { 
     execSync(`java -jar ck-0.7.1-SNAPSHOT-jar-with-dependencies.jar ./repos true 0 False`, { encoding: 'utf-8' })
     //metodo para retirar as infos
 }
 
-function deleteRepoFolder() {
+async function deleteRepoFolder() {
     fs.rmSync("./repos", { recursive: true, force: true });
 }
 
 function median(values){
-    if(values.length ===0) throw new Error("No inputs");
+    if(values.length === 0) return 0;
 
     values.sort(function(a,b){
       return a-b;
@@ -65,7 +66,7 @@ function getLoc(array){
     array.forEach(element => {
         loc += parseInt(element.loc);
     });
-    console.log("LOC: "+loc);
+    // console.log("LOC: "+loc);
     return loc;
 }
 
@@ -75,7 +76,7 @@ function getDit(array){
         if(element.dit>dit)
         dit = element.dit;
     });
-    console.log("DIT: "+dit);
+    // console.log("DIT: "+dit);
     return dit;
 }
 
@@ -85,7 +86,7 @@ function getCbo(array){
         cbo.push(element.cbo);
     });
     let medianCBO = median(cbo);
-    console.log("CBO: " + medianCBO);
+    // console.log("CBO: " + medianCBO);
     return medianCBO;
 }
 
@@ -95,23 +96,29 @@ function getLcom(array){
         lcom.push(element['lcom*']);
     });
     let medianLCOM = median(lcom);
-    console.log("LCOM: " + medianLCOM);
+    // console.log("LCOM: " + medianLCOM);
     return medianLCOM;
 }
 
-//to-do
-//lcom*/cbo
-
 async function getMetrics(){
     const classMetrics  = await getCSV(path.resolve(__dirname,'class.csv'));
-    getDit(classMetrics)
-    getLcom(classMetrics)
     const methodMetrics = await getCSV(path.resolve(__dirname,'method.csv'));
-    getLoc(methodMetrics)
-    getCbo(methodMetrics)
+    let dit = getDit(classMetrics)
+    let lcom = getLcom(classMetrics)
+    let loc = getLoc(methodMetrics)
+    let cbo = getCbo(methodMetrics)
+    let array = [dit,lcom,loc,cbo]
+    return array
 }
 
-// deleteRepoFolder();
-// cloneRepo('https://github.com/marinisz/trabalhoAlgoritmos');
-// getCk();
-await getMetrics()
+async function report(){
+    const reposData = await getCSV(path.resolve(__dirname,'../dados.csv'));
+    for(let i = 0;i<4;i++){
+        await cloneRepo(reposData[i].url)
+        await getCk();
+        let array = await getMetrics();
+        console.log(array);
+    }
+}
+
+report()
