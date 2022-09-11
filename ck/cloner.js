@@ -100,15 +100,17 @@ function getLcom(array){
     return medianLCOM;
 }
 
-async function getMetrics(){
+async function getMetrics(array){
     const classMetrics  = await getCSV(path.resolve(__dirname,'class.csv'));
     const methodMetrics = await getCSV(path.resolve(__dirname,'method.csv'));
     let dit = getDit(classMetrics)
     let lcom = getLcom(classMetrics)
     let loc = getLoc(methodMetrics)
     let cbo = getCbo(methodMetrics)
-    let array = [dit,lcom,loc,cbo]
-    return array
+    array['dit']=parseFloat(dit);
+    array['lcom']=parseFloat(lcom);
+    array['loc']=parseFloat(loc);
+    array['cbo']=parseFloat(cbo);
 }
 
 async function report(){
@@ -116,11 +118,7 @@ async function report(){
     for(let i = 0;i<2;i++){
         await cloneRepo(reposData[i].url)
         await getCk();
-        let array = await getMetrics();
-        reposData[i]['dit']=array[0];
-        reposData[i]['lcom']=array[1];
-        reposData[i]['loc']=array[2];
-        reposData[i]['cbo']=array[3];
+        await getMetrics(reposData[i]);
     }
     console.log(reposData);
 }
