@@ -1,5 +1,7 @@
 import { gql } from 'graphql-request'
 import ObjectsToCsv from 'objects-to-csv'
+import fs from 'node:fs'
+import {parse} from 'csv-parse'
 
 export const normalizeCsvData = (node) => {
     let node2 = {}
@@ -39,6 +41,7 @@ export const setQuery = (complement = "") => gql`{
             totalCount
           }
           url
+          stargazerCount
         }
       }
       pageInfo {
@@ -54,3 +57,11 @@ export const writeCSVFile = async (data, filename = 'dados') => {
     // Save to file:
     await csv.toDisk(`./${filename}.csv`);
 };
+
+export const getCSV = (path) => (
+  fs.createReadStream(path).pipe(parse({
+    delimiter: ",",
+    columns: true,
+    ltrim: true,
+    }))
+)

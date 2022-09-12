@@ -1,103 +1,69 @@
-import { execSync, exec } from 'child_process';
+import { execSync } from 'child_process';
 import fs from 'fs';
-import {parse} from 'csv-parse';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { compose, Transform } from 'node:stream';
-import { writeCSVFile } from '../utils.js';
+import { writeCSVFile, getCSV } from '../utils.js';
+import { Filter } from '../filter.js'
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-class Filter extends Transform {
-    constructor (metricName, options = {}) {
-        options.objectMode = true
-        super(options)
-        this.metricName = metricName
-        this.values = []
-    }
-    _transform(chunk, encoding, cb) {
-        if(chunk[this.metricName]) this.values.push(chunk[this.metricName])
-        cb()
-    }
-    _flush(done) {
-        done(null, {[this.metricName]: this.values})
-    }
-}
-
-function getCSV(path) {
-    const par = parse({
-        delimiter: ",",
-        columns: true,
-        ltrim: true,
-        })
-    
-    return fs.createReadStream(path).pipe(par)
-
-
-}
-
 function cloneRepo(url) {
-    execSync(`git clone ${url}`, { encoding: 'utf-8' })
+    execSync(`git clone ${url} ../repos`, { encoding: 'utf-8' })
 }
-//cloneRepo('https://github.com/alibaba/Sentinel')
+//cloneRepo('https://github.com/elastic/elasticsearch')
 function getCk() { 
     execSync(`java -jar ck-0.7.1-SNAPSHOT-jar-with-dependencies.jar ../repos true 0 False`, { encoding: 'utf-8' })
     //metodo para retirar as infos
 }
 //getCk()
 function deleteRepoFolder() {
-    fs.rmSync("./repos", { recursive: true, force: true });
+    fs.rmSync("../repos", { recursive: true, force: true });
 }
+//deleteRepoFolder();
 
-function getLoc(array){
-    let loc = 0;
-    array.forEach(element => {
-        loc += parseInt(element.loc);
-    });
-    console.log(loc);
-    return loc;
+const calMediana = (vetor) => {
+    const tamanho = vetor.length
+    const medianaPar = (vetor[tamanho / 2 - 1] + vetor[tamanho / 2]) / 2
+    const medianaImpar = vetor[Math.floor(tamanho/2)]
+
+    return !tamanho % 2 ? medianaPar : medianaImpar
 }
-
-function getDit(array){
-    let dit = 0;
-    array.forEach(element => {
-        if(element.dit>dit)
-        dit = element.dit;
-    });
-    console.log(dit);
-    return dit;
-}
-
-//to-do
-//lcom*/cbo
 
 function getMetrics(){
     const classMetrics  = getCSV(path.resolve(__dirname,'class.csv'));
-    const obj = {name: "Sentinel"}
+    const metrics = {}
+
     classMetrics.pipe(new Filter("cbo")).on("data", c => {
-        obj["cbo"] = c["cbo"].reduce((somatorio, valor) => somatorio + Number(valor), 0)
+        const cbos = c["cbo"].map(valor => Number(valor))
+        metrics["cbo"] = calMediana(cbos)
     })
     classMetrics.pipe(new Filter("dit")).on("data", c => {
-        obj["dit"] = Math.max(...c["dit"].map(valor => Number(valor)))
+        metrics["dit"] = Math.max(...c["dit"].map(valor => Number(valor)))
     })
     classMetrics.pipe(new Filter("lcom*")).on("data", c => {
         const lcoms = c["lcom*"].map(valor => Number.parseFloat(valor)).sort()
-        const lcomsTamanho = lcoms.length
-        const medianaPar = (lcoms[lcomsTamanho / 2 - 1] + lcoms[lcomsTamanho / 2]) / 2
-        const medianaImpar = lcoms[Math.floor(lcomsTamanho/2)]
-        obj["lcom*"] = !lcomsTamanho % 2 ? medianaPar : medianaImpar
+        metrics["lcom*"] = calMediana(lcoms)
     })
     const methodMetrics = getCSV(path.resolve(__dirname,'method.csv'));
     methodMetrics.pipe(new Filter("loc")).on("data", c => {
-        obj["loc"] = c["loc"].reduce((somatorio, valor) => somatorio + Number(valor), 0)
+        metrics["tamanho"] = c["loc"].reduce((somatorio, valor) => somatorio + Number(valor), 0)
     })
-    methodMetrics.on("close", () => {
-        writeCSVFile([obj], "metricResults")
-    })
+
+    return {metrics, methodMetrics}
 }
 
 // deleteRepoFolder();
 // cloneRepo('https://github.com/marinisz/trabalhoAlgoritmos');
 // getCk();
-getMetrics()
+const {metrics, methodMetrics} = getMetrics()
+const processMetrics = {
+    nome: 'elasticsearch',
+    populalidade: 61079,
+    atividade: 96,
+    maturidade: new Date('2010-02-08T13:20:56Z').getFullYear()
+}
+console.log({...metrics, ...processMetrics})
+methodMetrics.on("close", () => {
+    writeCSVFile([{...metrics, ...processMetrics}], "metricResults")
+})
