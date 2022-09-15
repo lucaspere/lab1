@@ -39,6 +39,7 @@ export const setQuery = (complement = "") => gql`{
             totalCount
           }
           url
+          stargazerCount
         }
       }
       pageInfo {
