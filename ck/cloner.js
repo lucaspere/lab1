@@ -3,6 +3,7 @@ import fs from 'fs';
 import {parse} from 'csv-parse';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { normalizeCsvData, setQuery, writeCSVFile } from '../utils.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -34,16 +35,27 @@ function getCSV(path) {
 
 async function cloneRepo(url) {
     await deleteRepoFolder();
-    execSync(`git clone ${url} ./repos`, { encoding: 'utf-8' })
+    try{
+        execSync(`git clone ${url} ./repos`, { encoding: 'utf-8' })
+    }catch(ex){
+        console.log("erro ao clonar "+url);
+    }
 }
 
 async function getCk() { 
-    execSync(`java -jar ck-0.7.1-SNAPSHOT-jar-with-dependencies.jar ./repos true 0 False`, { encoding: 'utf-8' })
-    //metodo para retirar as infos
+    try{
+        execSync(`java -jar ck-0.7.1-SNAPSHOT-jar-with-dependencies.jar ./repos true 0 False`, { encoding: 'utf-8' })
+    }catch(ex){
+        console.log(ex);
+    }
 }
 
 async function deleteRepoFolder() {
-    fs.rmSync("./repos", { recursive: true, force: true });
+    try{
+        fs.rmSync("./repos", { recursive: true, force: true });
+    } catch(ex) {
+        console.log("error deleting: "+ex);
+    }
 }
 
 function median(values){
@@ -83,7 +95,7 @@ function getDit(array){
 function getCbo(array){
     let cbo = [];
     array.forEach(element => {
-        cbo.push(element.cbo);
+        cbo.push(parseFloat(element.cbo));
     });
     let medianCBO = median(cbo);
     // console.log("CBO: " + medianCBO);
@@ -93,10 +105,11 @@ function getCbo(array){
 function getLcom(array){
     let lcom = [];
     array.forEach(element => {
-        lcom.push(element['lcom*']);
+        console.log(parseFloat(element['lcom*']));
+        if(!isNaN(parseFloat(element['lcom*'])))
+        lcom.push(parseFloat(element['lcom*']));
     });
     let medianLCOM = median(lcom);
-    // console.log("LCOM: " + medianLCOM);
     return medianLCOM;
 }
 
@@ -114,14 +127,39 @@ async function getMetrics(array){
 }
 
 async function report(){
-    const reposData = await getCSV(path.resolve(__dirname,'../dados.csv'));
-    for(let i = 0;i<2;i++){
-        await cloneRepo(reposData[i].url)
-        await getCk();
-        await getMetrics(reposData[i]);
+    var reposData = await getCSV(path.resolve(__dirname,'../dados.csv'));
+    var newData = await getCSV(path.resolve(__dirname,'./dados.csv'));
+    for(let i = 0;i<reposData.length;i++){
+        if(await isNotRead(reposData[i].name)){
+            console.log("Lendo: "+ reposData[i].name);
+            await cloneRepo(reposData[i].url)
+            await getCk();
+            await getMetrics(reposData[i]);
+            newData.push(reposData[i])
+            const nodes = newData
+            .flat()
+            .map(node => normalizeCsvData(node))
+            await writeCSVFile(nodes)
+        }
     }
-    console.log(reposData[0]);
-    console.log(reposData[1]);
+}
+
+async function isNotRead(repoName){
+    const dados = await getCSV(path.resolve(__dirname,'./dados.csv'));
+    if(dados.length>0){
+        for(let i=0;i<dados.length;i++){
+            if(dados[i].name==repoName){
+                console.log(repoName+" is here");
+                return false
+            }
+        }
+    }
+    console.log(repoName+" is not here");
+    return true;
+}
+
+async function isNotEmpty(data){
+    return ((data.cbo+data.dit+data.lcom)<1)
 }
 
 report()
