@@ -1,192 +1,77 @@
 
-**PONTIFÍCIA UNIVERSIDADE CATÓLICA DE MINAS GERAIS UNIDADE PRAÇA DA LIBERDADE**
-
-  
-
-**Engenharia de Software**
-
-  
-
-Laboratório de Experimentação de Software
-
-  
-
-Laboratório 01
-
-  
-
-**Prof. Laerte**
-
-  
-  
-
-Alunos: Lucas Fellippe e Vinícius Marini
-
-  
-  
+**PONTIFÍCIA UNIVERSIDADE CATÓLICA DE MINAS GERAIS UNIDADE PRAÇA DA LIBERDADE
+Engenharia de Software - Laboratório de Experimentação de Software
+Laboratório 02
+Prof. Laerte
+Alunos: Lucas Fellippe e Vinícius Marini**
 
 ## Introdução
 
-  
-
-Neste laboratório são estudadas as principais características de sistemas populares open-source. Por meio da API V4 do github o grupo teve acesso a dados dos repositórios marcados com maior número de estrelas no site github.com e com esses dados foi possível fazer uma análise a respeito de suas tecnologias.
-
-  
+Neste laboratório são estudadas as principais características de sistemas populares open-source da linguagem JAVA. Por meio da API V4 do github o grupo teve acesso a dados dos repositórios marcados com maior número de estrelas no site [github.com](http://github.com/) e com esses dados foi possível fazer uma análise a respeito de suas tecnologias.
 
 ## Hipóteses iniciais
 
-  
-
-1. Os sistemas populares não são necessariamente os mais maduros, pois Linguagens “da moda”, criadas recentemente atraem muitos usuários.
-
-2. Acreditamos que os sistemas mais populares têm maior número de contribuição pelo fato de estarem em alta entre os desenvolvedores.
-
-3. Os Sistemas populares lançam releases com frequência pois por terem grande número de usuários, caso exista algum bug ou melhoria, a comunidade encontrará.
-
-4. Sistemas populares são atualizados com frequência pois por terem grande número de usuários, caso exista algum bug ou melhoria, a comunidade encontrará.
-
-5. Sistemas populares são sim escritos nas linguagens mais populares pelo fato de que na maioria dos casos, essas são linguagens “melhores” para o desenvolvimento.
-
-6. Sistemas populares não possuem um alto percentual de issues fechadas, pois possuem muitas issues, logo o percentual pode ser baixo apesar do número de issues fechadas ser alta.
-
-7. Sistemas escritos em linguagens mais populares recebem mais contribuição externa, lançam mais releases e são atualizados com mais frequência. Pois possuem uma forte comunidade que está sempre buscando melhorias.
-
-  
+1.  Os repositórios mais populares apresentam melhores características de qualidade pois recebem mais atualizações e tem mais usuários procurando melhorias;
+    
+2.  Os repositórios mais antigos não necessariamente apresentam melhores características de qualidade pois por serem mais antigos, podem ter sido construído sob parâmetros de qualidade não tão apurados;
+    
+3.  Os repositórios com mais atividades apresentam melhores características de qualidade pois recebem mais atualizações e tem mais usuários procurando melhorias;
+    
+4.  Os repositórios de maiores tamanhos apresentam piores características de qualidade pois por serem maiores, são mais complexos e isso torna mais difícil corrigir problemas de qualidade.
+    
 
 ## Metodologia
 
-  
+Para análise dos dados, foram coletadas informações via API V3 (GraphQl) do Github. Por meio de scripts foram retirados dados de cada repositório os dados básicos: name (nome do repositório), createdAt (data de criação), updatedAt (última atualização), pullRequests (nº de pull requests), releases(número de releases), primaryLanguage (linguagem principal), issuesclosed (issues fechadas), issuesopen (issues abertas), url, stargazerCount (quantidade de estrelas).
 
-Depois de delimitado o tema e as hipóteses inicias, fora iniciada a etapa de coleta e processamento de dados. Os dados abordados são provenientes da API V4 do Github. Nesse contexto, foram coletados os dados dos repositórios mais populares na plataforma Github, tendo em vista o número de estrelas (marcação feita na página do repositório).
-
-  
-
-Após coletadas via Graphql, as informações foram processados em um script na linguagem Javascript e salvas em um documento CSV. Posteriormente, com as informações em CSV, foram gerados gráficos das principais informações buscadas.
-
-  
+Após coletar os dados básicos dos repositórios. Foi utilizada a ferramenta CK ([https://github.com/mauricioaniche/ck](https://github.com/mauricioaniche/ck)) para extrair métricas de classe e métodos. Desses dados foram coletados: dit, lcom(mediana), loc, cbo(mediana). E para gerar os gráficos, foi utilizado o Google Sheet, excluindo os outliers.
 
 ## Resultados Obtidos
 
-  
+Popularidade x Qualidade
 
-Com o processamento dos dados, foi possível obter resultados das hipóteses iniciais.
+![](https://lh5.googleusercontent.com/XXCM2st5fx7LxFzdj1rSUo2wPR0VK1QyPxMF-IpBSTCxpBpCVIOZNMKleU1EgGlyZOrNoKEuPGlmaarBz7Bzk3_Z3Unz-2OtUdT5pW_8vxX8bayg8Z_suRci3AzTzf1x18xryFKTZoYGY0SsBaU-5u5nRHW3sLOdqO4NoMRUCXkIcPNVrnhYf95JAw "Gráfico")![](https://lh6.googleusercontent.com/rG5N_j1Huhp6Y0Q-YsT-V8xOevnRxNZa7Xkf9mNLnX8LVQW2_QODUgVTUOfZkhN0OyReb6r3TtfcWIA9Xci6rsKi2fBcWriGKGdAvJMDpMFylvBOc7uNVPLE7gs1M5iAoXTiZc2DMtdamB9GLAXRIOzdRc1AqARV332i5JZ7M1Z4ur1Yzw2AQIWN7w "Gráfico")
+![](https://lh6.googleusercontent.com/8pMxLLvUpWpwB1HLl3LoYyzH6btE6aGY1JcyUKAVnR7i3SPpiwhOfxu6Hx1GtxOTZRjrXhI0C2EPRjCYLJ0mPD0c6ibTeS3DfOGdJP6gJjN3zoP-4TLA8-BkcYyj9atO7pNT_LczhzCD0hUTWxMKhHgtJ4PEAnYiYBOxPCkFKuBi8A_sfdXn7N6obw "Gráfico")
 
-  
+Maturidade x Qualidade
 
-1. Após coleta e processamento de dados, no dia 24/08/2022, a média de idade dos 1000 repositórios analisados foi 6,53 anos e a mediana 7. O mais antigo tem 14 anos e o mais recente 0;
+![](https://lh3.googleusercontent.com/dstSnIhsybNqem-ELbg-9E83H9PRxmy3ugWM-7PLC0wX_DcYOoXqA5SOpxRuXAs4yuzv8NYf3nt3U-k3-QO0uiM86CBHYQqTE_0fZMQXpJ0PpLZlpWCLvVCC71eAou7uZXNjW3wZTMB3w85mZEol7sf1pYxN-HT3eSXLUZBleo2SGGvMVAzkU2I9jw)![](https://lh4.googleusercontent.com/UDTVnqk7ublDnbrtiPReeYjYyIPWy4b1W9CHmmFRkSuGtBtdKUr2radjL70qQYn718-0UGfGXJWBPIHaq5hFxocFFHmpYtD5kXCtabMLey1d-Hovc4lur9JQMbeIjEUKNtsOW36wdIne-Mdtl9_pXLFtykzf0VKhS_qt4RzQOkuKfe0rYFv9RJNiFg "Gráfico")
+![](https://lh3.googleusercontent.com/6ednf5SaJ3umWTdmg_zSiwm2ZChmT8Mx6vjYT844wr0iR0VwUwjPTJv3ZGP_BQCr5E1WvTAg0TEwpCALYrHVv4YDo1n-1Vr368ZCjSQ03xYUITWMRHddXOPPMhtUCMACgmSQg74-wGnINBEyHesJiq9Xl9XUZzxhpTxTN7UO-5Awgqfiaq0lCLyUAg "Gráfico")
 
-2. Os valores de média, mediana, máximo e mínimo do dia 24/08/2022 foram respectivamente 2.184,19, 423,00, 101.510,00, 0,00.
+Atividade x Qualidade
 
-3. Os valores de média, mediana, máximo e mínimo do dia 24/08/2022 foram respectivamente 67,70, 18, 2.352,0.
+![](https://lh6.googleusercontent.com/9A5MPgzQYnDsGlaV4O9YC0tVJ_e653YDqcP2jtUQltBsBv2CSQLPOikon1qMiMut7AIEUNs_KQJCWih0EGTOUF3ltu9In2u7eHjcUEl4k7E_MWmKS-Xy_tw1drhHCTGjUI5QiFv2etBKqSLFarIqym0KEIkyglvksiYgV0f9yAtpdk7xRp-hE4CJDA)
+![](https://lh5.googleusercontent.com/WI3B_rZljyxhz0oUSkAeAAhlN0abj4OJ-5qN63ooUs7wxALfuNZwb8kZnqurvsS3k_7JuSTfPSSBNZPSLt0l39qj6zaCUVVlUS88QnEg_kRvNE9oN9QZsDDmtatoZOsnIbeHUhPcZ-1iGKNKiQzqDJQF98mmCDUrHnc2JQFaJwgAhQZe_2sYeLSYcw)
+![](https://lh6.googleusercontent.com/Zoxk-b0TKV7sN_tHOYElAKtBk3D2pHo2OF4MgCHBHzAX_ayzXlBB1OBNigJtAyDj40jQMR4N7lIoTG4Zru5Wkd3JE3SKG07FTHj3dd0Am93P1zBBknrFjuONbRKCd1QSgdictmH_sJW43Lw55dZy2-UM-8rmIVn6U36gjjy0NYe0eysONEtgnWYIVQ)
 
-4. Os valores de média, mediana, máximo e mínimo do dia 24/08/2022 foram respectivamente 0,04, 0,00, 3,00, 0,00.
+Tamanho x Qualidade
+![](https://lh3.googleusercontent.com/gTZb9vKcLO6oRqs1THrWYx9nkJmCnt7TmysVKjzZ66_Imq7u_wIzlXA_5Pm3PVwj9NawJ0M6-r4Dt4IGl9rxbp8q3I_EUThTHb1TDLOq1ZTurt457C9OxPGP3BviH4bWlpOpMWHVsmar0DocFeGTndgowFLMSfIFKv8Tou4xlkALVeIM5hqm_J7xPQ "Gráfico")
+![](https://lh4.googleusercontent.com/cJcR5SnJookWoQjyG2S9Jg7_LAE7yvCKaSxXNwQwu44_dSwRw_aKvB2FGWFyndUXfXoevqvmZhpAoG0E08BIPs3cjbQy5GPfHxuL_aPiANyWdfEIEM36SztTFBUMd922uVfVgd67U_5MAy6lCVWyYqyMtYFK9Abu8Ae1mk9FWJohnxWVussDX5L4uw "Gráfico")
+![](https://lh4.googleusercontent.com/uG7hKjR67Q8bqdZp0lJQXtHVeBWgkkEqBC6KkYL7pwRNSUBpjAtC4LSq_KRpuOY5UGONL73uqkPz6Mlzg2WA21kw5VIh3HSpRV8AhC4h8CUbN-xJVHsdZpJq30MfGLSsIAm6XiAYsV3idAJEvrGc54NfP_yOIuvb9BeInZfmoVJI76ETrPptutn8sA "Gráfico")
+Planilha: https://docs.google.com/spreadsheets/d/1HWB-YWuUVitvHxPEyoEQV_Prq3hf0inkm0bo9yoG-QI/edit?usp=sharing
 
-5. Contagem das linguagens mais populares no dia 24/08/2022: JavaScript = 227, Python = 111, Java = 68, C# = 12, Shell = 23, C = 31, Ruby = 18.
+Apresentação dos Resultados
 
-6. A média dos percentuais de issues fechadas, no dia 24/08/2022, foi de 75,96% e a mediana 85,06%.
+Após análise dos dados e excluindo os outliers é possível ver os resultados da pesquisa. Nesse sentido, segue a análise das hipóteses iniciais:
 
-  
-  
-
-## Apresentação dos Resultados
-
-  
-
-1.  Sistemas populares são maduros/antigos?
+1.  Os repositórios mais populares apresentam melhores características de qualidade pois recebem mais atualizações e tem mais usuários procurando melhorias;
     
 
-  
+Após resultados: PREENCHER
 
-![](https://lh4.googleusercontent.com/Y1FEsL7_UpV-UIqralz1zO4ds5PqUkuyvgvbyg-dwuaeTTM0b0cY0npfxnKM82ihuQ4B4pIzx5esNBtNdwXzFcuBV2-NjJjcowuUKWEbAcw_MBBWd7U27ZiWYTiqfZkoc4VJ0oLRAZSd0Uf2uAl2ytM)
-
-*   O sistema mais antigo tem 14 anos de existência e o mais novo tem nem 1 ano. A mediana dos valores é de 7 anos.
+2.  Os repositórios mais antigos não necessariamente apresentam melhores características de qualidade pois por serem mais antigos, podem ter sido construído sob parâmetros de qualidade não tão apurados;
     
 
-2.  Sistemas populares recebem muita contribuição externa?
+Após resultados: PREENCHER
+
+3.  Os repositórios com mais atividades apresentam melhores características de qualidade pois recebem mais atualizações e tem mais usuários procurando melhorias;
     
 
-![](https://lh6.googleusercontent.com/8mgRYA-idVosPv63sQeYi2xaiQIsI_tnetpDcNaT_LPLv9T0_Ry-FfTmf3TL92q__Nkb2kVL6dD7AacecGBIQt-eAruEtsTSywrSBJafmbUy0Hmpn6vVrRvt6qwSVzf5CVQV2mDGcQiSj6jassVEJTA)
-    
-*  O maior número de contribuição em um sistema é de 101.517, o mínimo é de 0. A mediana dos valores é de 434.
-    
+Após resultados: PREENCHER
 
-  
-  
-
-3.  Sistemas populares lançam releases com frequência?
+4.  Os repositórios de maiores tamanhos apresentam piores características de qualidade pois por serem maiores, são mais complexos e isso torna mais difícil corrigir problemas de qualidade.
     
 
-![](https://lh4.googleusercontent.com/BH7x5LwhXLdQ1XAMumjvnGGwVj6sjKgtGPT5JboYPGmxUkuOZ6GLrbebHlmt2HAYF827oCe5OUpc_9e-iWd5koLmF0OvKNtQz4bE5zQ0mUe96Vb7L8kfYpSz6LMFDwMrzaibM1UGJH2JnZmQrRLxuZU)
-    
-* O maior número de releases de um sistema é de 2352, o mínimo é de 0. A mediana dos valores é de 19.
-    
+Após resultados: PREENCHER
 
-  
-
-4.  Sistemas populares lançam releases com frequência?
-    
-
-![](https://lh4.googleusercontent.com/L2Y1IqJD17Xfctte1Zq42mueJtbyvPgc4KBd3Soc01Z6Vt0O4ksLSHhMrG_oNjm0fIyJqVKCi0Nv9mev4t6aOFzurSG8Q3Pi18d-pMbSVvv-qeQB8ygnB837ZFXlsX7CeW-twIyeIaNaXelMgFJo684)
-    
-* O valor mínimo é de 1 dia, assim como a mediana. O maior valor de dias sem atualização é de 4 dias.
-
-
-5.  Sistemas populares são escritos nas linguagens mais populares?
-    
-
-![](https://lh3.googleusercontent.com/KR1PlW8dhTo4ZoeTLjIoMQh2MCEHiUTl-HAuhazru7onP4Lv8KtGuoZqjIyNqd6SwHQRgN4vmiMpQwnP28LreGYWWZms9VyGeao67Zoj7aQt0MOVXJnQ9TgpGyOIUPkxarZEDIS_5gGIrJVLnN4I0yk)
-    
-* Javascript é a linguagem que mais aparece, com 23%. Seguido com Python 11%, Java 7%, C 3%, Ruby 2% e C# 1%. A categoria Outros se refere ao somatório de outras linguagens que é de 51%.
-    
-
-  
-
-6.  Sistemas populares possuem um alto percentual de issues fechadas?
-    
- ![](https://lh6.googleusercontent.com/wENqyyWD4JPxV5i2JgRmgOhZxYKLkq-D-eKcwjlIVmUzEAtxpyYwDd1xIzG3HqhacQZPqcfcJtyccmN5ku4Qpj7yiPbzptB9tDhjwZ1SVZYCHM3nvVQTIQwsCzBR5HSfmmOOB9gx1gGKlKJ8dt2wr50)
-    
-*  O maior percentual é de 100%, o menor é de 0%. A mediana dos percentuais é de 33,87%.
- 
-
-**Link dos resultados:** [https://docs.google.com/spreadsheets/d/1vfV5Z0bgLPvZEYPO9iGQB933sjlRAf1Af8NeJCCzf8U/edit?usp=sharing](https://docs.google.com/spreadsheets/d/19XqPOsd80vP3ZAV1eCD9vGlte0mndRYdwRgr-b6WORg/edit?usp=sharing)
-
-  
-
-## Discussão das hipóteses
-
-  
-
-Após processamento e coleta de dados e com os resultados obtidos, avaliamos as hipóteses iniciais.
-
-  
-
-1. “Os sistemas populares não são necessariamente os mais maduros, pois Linguagens “da moda”, criadas recentemente atraem muitos usuários”. Tendo em vista os resultados encontrados, media (6,53), mediana (7) e moda (8), sendo que o mais antigo tem 14 anos e o mais recente 0, nossa hipótese inicial se confirmou.
-
-  
-
-2. “Acreditamos que os sistemas mais populares têm maior número de contribuição pelo fato de estarem em alta entre os desenvolvedores.” Os dados não foram conclusivos, tendo em vista a grande variação entre os repositórios.
-
-  
-
-3. “Os Sistemas populares lançam releases com frequência pois por terem grande número de usuários, caso exista algum bug ou melhoria, a comunidade encontrará.” Os dados não foram conclusivos, tendo em vista a grande variação entre os repositórios.
-
-  
-
-4. “Sistemas populares são atualizados com frequência pois por terem grande número de usuários, caso exista algum bug ou melhoria, a comunidade encontrará.” Sim, essa hipótese se confirma, os repositórios tiveram um tempo de atualização de no máximo 4 dias no período analisado.
-
-  
-
-5. “Sistemas populares são sim escritos nas linguagens mais populares pelo fato de que na maioria dos casos, essas são linguagens “melhores” para o desenvolvimento.” Não necessariamente, o percentual das linguagens populares não superou o restante e teve python e javascript como principais linguagens.
-
-  
-
-6. “Sistemas populares não possuem um alto percentual de issues fechadas, pois possuem muitas issues, logo o percentual pode ser baixo apesar do número de issues fechadas ser alta.” Os sistemas poupulares possuem alto percentual de issues fechadas, logo nossa hipótese estava incorreta.
-
-  
-
-7. “Sistemas escritos em linguagens mais populares recebem mais contribuição externa, lançam mais releases e são atualizados com mais frequência. Pois possuem uma forte comunidade que está sempre buscando melhorias.”  Os dados não foram conclusivos, tendo em vista a grande variação entre os repositórios. 
-
-  
-  
-
-**Link do repositório:** https://github.com/lucaspere/lab1
+Link do repositório:  [https://github.com/lucaspere/lab1](https://github.com/lucaspere/lab1)
