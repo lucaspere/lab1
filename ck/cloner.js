@@ -162,4 +162,5 @@ async function isNotEmpty(data){
     return ((data.cbo+data.dit+data.lcom)<1)
 }
 
+
 report()
