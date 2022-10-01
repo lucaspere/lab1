@@ -30,7 +30,7 @@ def getImportantData(pr,repo):
 
 def writeToFile(repo):
     df = pd.json_normalize(repo)
-    df.to_csv('dados.csv')
+    df.to_csv('dados.csv',encoding='utf-8', index=False)
     
 
 def checkRepo(repo):
@@ -42,48 +42,46 @@ def checkRepo(repo):
     isPresent = False
     for json in jsonArray:
         if(repo["name"]==json["name"]):
-            print(repo["name"])
-            print(json["name"])
             isPresent = True
-        return isPresent
-    if(isPresent):
+    if(not isPresent):
+        jsonArray.append(repo)
         writeToFile(jsonArray)
     
 
 def getPrsFromRepo(repo):
-        split = repo['url'].split("/")
-        owner = split[3]
-        name = split[4]
-        page = 1
-        prs = []
-        havePages = True
-        headers = {"Authorization": ("Bearer " + GITHUB_TOKEN)}
-        while havePages:
-            url = "https://api.github.com/repos/%s/%s/pulls?state=all&page=%s"%(owner, name, page)
-            try:
-                request = requests.get(url,headers = headers)
-                if request.status_code == 200:
-                        responses = (request.json())
-                        if(len(responses)>0):
-                            prs.append(responses)
-                            page+=1
-                            havePages=False
-                        else:
-                            havePages=False
-                else:
-                    return
-            except:
-                print("Erro ao Procurar")
+    split = repo['url'].split("/")
+    owner = split[3]
+    name = split[4]
+    page = 1
+    prs = []
+    havePages = True
+    headers = {"Authorization": ("Bearer " + GITHUB_TOKEN)}
+    while havePages:
+        url = "https://api.github.com/repos/%s/%s/pulls?state=all&page=%s"%(owner, name, page)
+        try:
+            request = requests.get(url,headers = headers)
+            if request.status_code == 200:
+                    responses = (request.json())
+                    if(len(responses)>0):
+                        prs.append(responses)
+                        page+=1
+                        havePages=False
+                    else:
+                        havePages=False
+            else:
                 return
-        for pr in prs:
-            for data in pr:
-                getImportantData(data, repo)
-        return prs
+        except:
+            print("Erro ao Procurar")
+            return
+    for pr in prs:
+        for data in pr:
+            getImportantData(data, repo)
+    return prs
 
 def getAll():
     prs = getRepoWithPrsHigherThan100()
     for pr in prs:
         getPrsFromRepo(pr)
 
-# writeToFile(getRepoWithPrsHigherThan100()[0])
+# checkRepo(getRepoWithPrsHigherThan100()[8])
 getAll()
