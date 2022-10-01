@@ -1,7 +1,9 @@
 import json
 import requests
 from dotenv import dotenv_values
+import csv
 import requests
+import pandas as pd
 from pathlib import Path
 from dotenv import dotenv_values
 env_path = Path(__file__).parent / ".\\.env"
@@ -22,6 +24,10 @@ def getRepoWithPrsHigherThan100():
             morePrs.append(file)
     return morePrs
 
+def getImportantData(pr):
+    if(len(pr["requested_reviewers"])>0):
+        print(len(pr["requested_reviewers"]))
+
 def getPrsFromRepo(repo):
         split = repo['url'].split("/")
         owner = split[3]
@@ -32,7 +38,6 @@ def getPrsFromRepo(repo):
         headers = {"Authorization": ("Bearer " + GITHUB_TOKEN)}
         while havePages:
             url = "https://api.github.com/repos/%s/%s/pulls?state=all&page=%s"%(owner, name, page)
-            print(url)
             try:
                 request = requests.get(url,headers = headers)
                 if request.status_code == 200:
@@ -47,7 +52,15 @@ def getPrsFromRepo(repo):
             except:
                 print("Erro ao Procurar")
                 return
-        print(len(prs))
+        print(type(prs))
+        for pr in prs:
+            for data in pr:
+                getImportantData(data)
         return prs
 
-getPrsFromRepo(getRepoWithPrsHigherThan100()[0])
+def getAll():
+    prs = getRepoWithPrsHigherThan100()
+    for pr in prs:
+        getPrsFromRepo(pr)
+
+getAll()
