@@ -26,14 +26,13 @@ def getRepoWithPrsHigherThan100():
 
 def getImportantData(pr,repo):
     if(len(pr["requested_reviewers"])>0):
-        checkRepo(repo)
+        checkRepoAndWriteIntoCsv(repo)
 
 def writeToFile(repo):
     df = pd.json_normalize(repo)
     df.to_csv('dados.csv',encoding='utf-8', index=False)
     
-
-def checkRepo(repo):
+def checkRepoAndWriteIntoCsv(repo):
     jsonArray = []
     with open('dados.csv', encoding='utf-8') as csvf: 
         csvReader = csv.DictReader(csvf)
@@ -47,7 +46,6 @@ def checkRepo(repo):
         jsonArray.append(repo)
         writeToFile(jsonArray)
     
-
 def getPrsFromRepo(repo):
     split = repo['url'].split("/")
     owner = split[3]
@@ -65,7 +63,6 @@ def getPrsFromRepo(repo):
                     if(len(responses)>0):
                         prs.append(responses)
                         page+=1
-                        havePages=False
                     else:
                         havePages=False
             else:
@@ -85,3 +82,7 @@ def getAll():
 
 # checkRepo(getRepoWithPrsHigherThan100()[8])
 getAll()
+
+
+
+# Até o momento ta pegando os repositorios que tem mais de 100 prs e que tenha reviewer
