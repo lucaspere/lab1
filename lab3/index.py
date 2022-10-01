@@ -24,9 +24,31 @@ def getRepoWithPrsHigherThan100():
             morePrs.append(file)
     return morePrs
 
-def getImportantData(pr):
+def getImportantData(pr,repo):
     if(len(pr["requested_reviewers"])>0):
-        print(len(pr["requested_reviewers"]))
+        checkRepo(repo)
+
+def writeToFile(repo):
+    df = pd.json_normalize(repo)
+    df.to_csv('dados.csv')
+    
+
+def checkRepo(repo):
+    jsonArray = []
+    with open('dados.csv', encoding='utf-8') as csvf: 
+        csvReader = csv.DictReader(csvf)
+        for row in csvReader: 
+            jsonArray.append(row)
+    isPresent = False
+    for json in jsonArray:
+        if(repo["name"]==json["name"]):
+            print(repo["name"])
+            print(json["name"])
+            isPresent = True
+        return isPresent
+    if(isPresent):
+        writeToFile(jsonArray)
+    
 
 def getPrsFromRepo(repo):
         split = repo['url'].split("/")
@@ -45,6 +67,7 @@ def getPrsFromRepo(repo):
                         if(len(responses)>0):
                             prs.append(responses)
                             page+=1
+                            havePages=False
                         else:
                             havePages=False
                 else:
@@ -52,10 +75,9 @@ def getPrsFromRepo(repo):
             except:
                 print("Erro ao Procurar")
                 return
-        print(type(prs))
         for pr in prs:
             for data in pr:
-                getImportantData(data)
+                getImportantData(data, repo)
         return prs
 
 def getAll():
@@ -63,4 +85,5 @@ def getAll():
     for pr in prs:
         getPrsFromRepo(pr)
 
+# writeToFile(getRepoWithPrsHigherThan100()[0])
 getAll()
