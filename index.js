@@ -12,7 +12,7 @@ const client = new GraphQLClient('https://api.github.com/graphql', {
 
 const results = []
 
-for (let i = 0; i < 50; i++) {
+for (let i = 0; i < 100; i++) {
   const after = results.at(i - 1)?.search.pageInfo.endCursor
   const queryComplement = after && `, after: "${after}"`
   const data = await client.request(setQuery(queryComplement))

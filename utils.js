@@ -38,6 +38,8 @@ export const setQuery = (complement = "") => gql`{
           issuesopen: issues(states: OPEN) {
             totalCount
           }
+          url
+          stargazerCount
         }
       }
       pageInfo {
