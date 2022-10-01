@@ -1,6 +1,12 @@
 import json
 import requests
 from dotenv import dotenv_values
+import requests
+from pathlib import Path
+from dotenv import dotenv_values
+env_path = Path(__file__).parent / ".\\.env"
+config = dotenv_values(str(env_path))
+GITHUB_TOKEN = config["GITHUB_TOKEN"]
 
 def openJson():  
     f = open('data.json')
@@ -23,7 +29,7 @@ def getPrsFromRepo(repo):
         page = 1
         prs = []
         havePages = True
-        headers = {"Authorization": ("Bearer " + "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")}
+        headers = {"Authorization": ("Bearer " + GITHUB_TOKEN)}
         while havePages:
             url = "https://api.github.com/repos/%s/%s/pulls?state=all&page=%s"%(owner, name, page)
             print(url)
@@ -36,8 +42,12 @@ def getPrsFromRepo(repo):
                             page+=1
                         else:
                             havePages=False
+                else:
+                    return
             except:
                 print("Erro ao Procurar")
+                return
         print(len(prs))
+        return prs
 
 getPrsFromRepo(getRepoWithPrsHigherThan100()[0])
