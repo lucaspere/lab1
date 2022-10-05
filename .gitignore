@@ -133,6 +133,4 @@ dist
 
 package-lock.json
 
-*.csv
-
 .ck/repos

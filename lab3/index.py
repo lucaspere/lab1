@@ -25,13 +25,13 @@ def getRepoWithPrsHigherThan100():
             morePrs.append(file)
     return morePrs
 
-def writeToFile(repo):
+def writeToFile(repo,path):
     df = pd.json_normalize(repo)
-    df.to_csv('dados.csv',encoding='utf-8', index=False)
+    df.to_csv(path,encoding='utf-8', index=False)
 
-def checkBefore(repo):
+def checkBefore(repo,path):
     jsonArray = []
-    with open('dados.csv', encoding='utf-8') as csvf: 
+    with open(path, encoding='utf-8') as csvf: 
         csvReader = csv.DictReader(csvf)
         for row in csvReader: 
             jsonArray.append(row)
@@ -41,17 +41,17 @@ def checkBefore(repo):
             isPresent = True
     return isPresent
 
-def writeIntoCsv(repo):
+def writeIntoCsv(repo,path):
     jsonArray = []
-    with open('dados.csv', encoding='utf-8') as csvf: 
+    with open(path, encoding='utf-8') as csvf: 
         csvReader = csv.DictReader(csvf)
         for row in csvReader: 
             jsonArray.append(row)
         jsonArray.append(repo)
-        writeToFile(jsonArray)
+        writeToFile(jsonArray,path)
     
 def getPrsFromRepo(repo):
-    if(not checkBefore(repo)):
+    if((not checkBefore(repo,'dados.csv')) and (not checkBefore(repo,'jaFoiENaoDeu.csv'))):
         print("Analisando: "+repo["url"])
         split = repo['url'].split("/")
         owner = split[3]
@@ -69,6 +69,8 @@ def getPrsFromRepo(repo):
                             data = checkRules(responses)
                             if(len(data)>0):
                                 prs.append(data)
+                                if(len(prs)>=100):
+                                    havePages=False
                             page+=1
                         else:
                             havePages=False
@@ -77,15 +79,28 @@ def getPrsFromRepo(repo):
             except:
                 print("Erro ao Procurar")
                 return
-        if(len(prs)>0):
-            writeIntoCsv(repo)
+        # if(len(prs)>0):
+        if(len(prs)>=100):
+            writeIntoCsv(repo,'dados.csv')
+        else:
+            writeIntoCsv(repo,'jaFoiENaoDeu.csv')
         return prs
+    else:
+        print(repo["url"]+" Já Foi analisado")
     
+def getNewData():
+    jsonArray = []
+    with open('aaaaaaaaaaaaaaaaaaaaaaaaaaaaa.csv', encoding='utf-8') as csvf: 
+        csvReader = csv.DictReader(csvf)
+        for row in csvReader: 
+            jsonArray.append(row)
+    return jsonArray
 
 def getAll():
-    prs = getRepoWithPrsHigherThan100()
-    for pr in prs:
-        getPrsFromRepo(pr)
+    repos = getRepoWithPrsHigherThan100()
+    # prs = getNewData()
+    for repo in repos:
+        getPrsFromRepo(repo)
 
 def checkRules(prs):
     dados = []
@@ -105,7 +120,7 @@ def checkRules(prs):
         if(len(dado["requested_reviewers"])>0):
             dados3.append(dado)
     if(len(dados3)<=0):
-            return []
+        return []
     return dados3
 
 def compareHours(data1,data2):
@@ -117,10 +132,9 @@ def compareHours(data1,data2):
             isBigger = True
     return isBigger
             
-
 # testador()
 # checkRepo(getRepoWithPrsHigherThan100()[8])
 getAll()
-
+getAll()
 
 # Até o momento ta pegando os repositorios que tem mais de 100 prs e que tenha reviewer

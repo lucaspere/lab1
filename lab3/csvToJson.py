@@ -15,10 +15,10 @@ def csv_to_json(csvFilePath, jsonFilePath):
             jsonArray.append(row)
   
     #convert python jsonArray to JSON String and write to file
-    with open(jsonFilePath, 'w', encoding='utf-8') as jsonf: 
+    with open(jsonFilePath, 'a', encoding='utf-8') as jsonf: 
         jsonString = json.dumps(jsonArray, indent=4)
         jsonf.write(jsonString)
           
-csvFilePath = r'../dados.csv'
+csvFilePath = r'../resposta.csv'
 jsonFilePath = r'data.json'
 csv_to_json(csvFilePath, jsonFilePath)
