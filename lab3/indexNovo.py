@@ -107,7 +107,7 @@ def checkRules(prs):
         return []
     return dados3
 
-# todo -> pegar tamamho/descricao/interação
+# todo -> pegar tamamho/descricao/interação e escrever no csv prs.csv
 def getInfoFromPR(pr):
     timeSpent = timeInPrInSeconds(pr["created_at"],pr["closed_at"])
     return
