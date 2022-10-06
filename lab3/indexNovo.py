@@ -15,6 +15,18 @@ def writeToFile(repo,path):
     df = pd.json_normalize(repo)
     df.to_csv(path,encoding='utf-8', index=False)
 
+def checkBefore(repo,path):
+    jsonArray = []
+    with open(path, encoding='utf-8') as csvf: 
+        csvReader = csv.DictReader(csvf)
+        for row in csvReader: 
+            jsonArray.append(row)
+    isPresent = False
+    for json in jsonArray:
+        if(repo["name"]==json["name"]):
+            isPresent = True
+    return isPresent
+
 def writeIntoCsv(repo,path):
     jsonArray = []
     with open(path, encoding='utf-8') as csvf: 
@@ -25,36 +37,41 @@ def writeIntoCsv(repo,path):
         writeToFile(jsonArray,path)
     
 def getPrsFromRepo(repo):
-    print("Analisando: "+repo["url"])
-    split = repo['url'].split("/")
-    owner = split[3]
-    name = split[4]
-    page = 1
-    prs = []
-    havePages = True
-    while havePages:
-        url = "https://api.github.com/repos/%s/%s/pulls?state=all&page=%s"%(owner, name, page)
-        try:
-            request = requests.get(url,headers = headers)
-            if request.status_code == 200:
+    if not checkBefore(repo,'jaFoi.csv'):
+        print("Analisando: "+repo["url"])
+        split = repo['url'].split("/")
+        owner = split[3]
+        name = split[4]
+        page = 1
+        prs = []
+        havePages = True
+        while havePages:
+            url = "https://api.github.com/repos/%s/%s/pulls?state=all&page=%s"%(owner, name, page)
+            try:
+                request = requests.get(url,headers = headers)
+                if request.status_code == 200:
                     responses = (request.json())
                     if(len(responses)>0):
-                        data = checkRules(responses)
-                        if(len(data)>0):
-                            prs.append(data)
+                        dataTemp = checkRules(responses)
+                        if(len(dataTemp)>0):
+                            for dat in dataTemp:
+                                prs.append(dat)
                         page+=1
+                        havePages=False
                     else:
                         havePages=False
-            else:
+                else:
+                    return
+            except:
+                print("Erro ao Procurar")
                 return
-        except:
-            print("Erro ao Procurar")
-            return
-    if(len(prs)>=100):
-        writeIntoCsv(repo,'dados.csv')
+        for pr in prs:
+            getInfoFromPR(pr)
+            # incrementar o metodo getinfofrompr pra pegar tudo que precisa
+        writeIntoCsv(repo,'jaFoi.csv')
+        return prs
     else:
-        writeIntoCsv(repo,'jaFoiENaoDeu.csv')
-    return prs
+        print(repo['url'].split("/")[4]+" Já Foi analisado")
     
 def getData():
     jsonArray = []
@@ -89,6 +106,19 @@ def checkRules(prs):
     if(len(dados3)<=0):
         return []
     return dados3
+
+# todo -> pegar tamamho/descricao/interação
+def getInfoFromPR(pr):
+    timeSpent = timeInPrInSeconds(pr["created_at"],pr["closed_at"])
+    return
+
+def timeInPrInSeconds(pr):
+    data1 = pr["created_at"][11:19]
+    data2 = pr["closed_at"][11:19]
+    horas = float(data2.split(":")[0])-float(data1.split(":")[0])
+    minutos = float(data2.split(":")[1])-float(data1.split(":")[1])
+    segundos = float(data2.split(":")[2])-float(data1.split(":")[2])
+    return (horas*60*60+minutos+segundos/60)/60
 
 def compareHours(data1,data2):
     isBigger = False

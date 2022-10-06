@@ -1,5 +1,4 @@
 name,createdAt,updatedAt,pullRequests,releases,primaryLanguage,issuesclosed,issuesopen,url,stargazerCount
-developer-roadmap,2017-03-15T13:45:52Z,2022-10-02T23:54:11Z,736,0,TypeScript,580,124,https://github.com/kamranahmedse/developer-roadmap,213506
 freeCodeCamp,2014-12-24T17:49:19Z,2022-10-02T23:51:33Z,18314,0,TypeScript,16208,154,https://github.com/freeCodeCamp/freeCodeCamp,354490
 react,2013-05-24T16:15:54Z,2022-10-02T23:39:23Z,8534,99,JavaScript,10902,801,https://github.com/facebook/react,195537
 bootstrap,2011-07-29T21:19:00Z,2022-10-02T20:45:37Z,7856,80,JavaScript,21285,249,https://github.com/twbs/bootstrap,159803
