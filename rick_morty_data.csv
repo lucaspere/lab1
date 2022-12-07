@@ -1,0 +1,11 @@
+type,description,payloadLen,timeElaped,url,query
+REST,Find character where id is 151,525,69,https://rickandmortyapi.com/api/character/151,
+REST,List episodios,28143,46,https://rickandmortyapi.com/api/episode,
+REST,Get episodio 10 and 28,6349,62,"https://rickandmortyapi.com/api/episode/10,28",
+REST,List episodios where character name is rick and status is alive,11578,39,https://rickandmortyapi.com/api/character/?name=rick&status=alive,
+REST,List Locations,27254,36,https://rickandmortyapi.com/api/location,
+GRAPHQL,Find character where id is 151,385,68,,"query{characters(filter:{name:""Gwendolyn""}){results{id name status species type gender origin{name} location{name} image episode{name} created}}}"
+GRAPHQL,List episodios,20848,56,,query{episodes{info{count pages next prev}results{id name air_date episode created characters{id name}}}}
+GRAPHQL,Get episodio 10 and 28,4801,52,,"query{episodesByIds(ids:[10,28]){id name air_date episode created characters{id name}}}"
+GRAPHQL,List episodios where character name is rick and status is alive,6558,52,,"query{characters(filter:{name:""rick"",status:""alive""}){results{id name status species type gender origin{name} location{name} image episode{id} created}}}"
+GRAPHQL,List Locations,9044,91,,query{locations{info{count pages next prev}results{id name type dimension residents{id} created}}}
