@@ -1,5 +1,7 @@
 import { gql } from 'graphql-request'
 import ObjectsToCsv from 'objects-to-csv'
+import fs from 'node:fs'
+import {parse} from 'csv-parse'
 
 export const normalizeCsvData = (node) => {
     let node2 = {}
@@ -17,7 +19,7 @@ export const normalizeCsvData = (node) => {
 }
 
 export const setQuery = (complement = "") => gql`{
-    search(query: "stars:>100", type: REPOSITORY, first: 20 ${complement}) {
+    search(query: "stars:>100, language:java", type: REPOSITORY, first: 20 ${complement}) {
       nodes {
         ... on Repository {
           name
@@ -38,6 +40,8 @@ export const setQuery = (complement = "") => gql`{
           issuesopen: issues(states: OPEN) {
             totalCount
           }
+          url
+          stargazerCount
         }
       }
       pageInfo {
@@ -53,3 +57,11 @@ export const writeCSVFile = async (data, filename = 'dados') => {
     // Save to file:
     await csv.toDisk(`./${filename}.csv`);
 };
+
+export const getCSV = (path) => (
+  fs.createReadStream(path).pipe(parse({
+    delimiter: ",",
+    columns: true,
+    ltrim: true,
+    }))
+)
